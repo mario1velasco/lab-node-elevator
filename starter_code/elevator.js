@@ -4,18 +4,20 @@ class Elevator {
     this.floor = 0;
     this.MAXFLOOR = 10;
     this.requests = [];
-    this.direction = "";
+    this.direction = "Up";
     this.waitingList = [];
     this.passengers = [];
   }
   start() {
-    var moveElevator = setInterval(this.update, 1000);
+    // var moveElevator = setInterval(this.update.bind(this), 1000);
+    var moveElevator = setInterval(() => this.update(), 1000);
   }
   stop() {
     clearInterval(moveElevator);
   }
   update() {
     this.log();
+
   }
   _passengersEnter(person) {
     this.passengers.push(person);
@@ -26,8 +28,8 @@ class Elevator {
     console.log(`${person.name} has enter the elevator`);
   }
   _passengersLeave() {
-    for(let i=0; i<this.passengers.length; i++){
-      if (this.passengers[i].destinationFloor === this.floor){
+    for (let i = 0; i < this.passengers.length; i++) {
+      if (this.passengers[i].destinationFloor === this.floor) {
         console.log(`${this.passengers[i].name} has left the elevator`);
         this.passengers.splice(i, 1);
         i--;
