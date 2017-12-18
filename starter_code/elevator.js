@@ -21,7 +21,6 @@ class Elevator {
     this.log();
     this._passengersLeave();
     this._passengersEnter();
-    // console.log(`Floor: ${this.floor}  |  Request 0 = ${this.requests}  | Req length = ${this.requests.length}`);
     if (this.requests.length === 0){
       this.stop();
     }
@@ -36,11 +35,8 @@ class Elevator {
         console.log(`${this.passengers[this.passengers.length-1].name} has enter the elevator`);
       }
     }
-    // console.log(this.waitingList[0]);
     for (let i = 0; i < this.waitingList.length; i++) {
-      // console.log("Wait Lis=" + this.waitingList[i].originFloor + "    floor" + this.floor);
       if (this.waitingList[i].originFloor === this.floor) {
-        // console.log("borrando");
         this.waitingList.splice(i, 1);
           i--;
       }
@@ -55,7 +51,6 @@ class Elevator {
       }
     }
     for (let i = 0; i < this.requests.length; i++) {
-      // console.log(`Request i = ${this.requests[i]}  | Floor= ${this.floor}`);
       if (this.requests[i] === this.floor) {
         this.requests.splice(i, 1);
         i--;
