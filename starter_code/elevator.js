@@ -7,48 +7,44 @@ class Elevator {
     this.direction = "Up";
     this.waitingList = [];
     this.passengers = [];
+    this.moveElevator="";
   }
   start() {
     // var moveElevator = setInterval(this.update.bind(this), 1000);
-    var moveElevator = setInterval(() => this.update(), 1000);
+    this.moveElevator = setInterval(() => this.update(), 1000);
   }
   stop() {
-    clearInterval(moveElevator);
+    clearInterval(this.moveElevator);
     console.log("There are not people waiting");
   }
   update() {
     this.log();
     this._passengersLeave();
     this._passengersEnter();
-    console.log(`Floor: ${this.floor}  |  Request 0 = ${this.requests[0]}`);
+    // console.log(`Floor: ${this.floor}  |  Request 0 = ${this.requests}  | Req length = ${this.requests.length}`);
+    if (this.requests.length === 0){
+      this.stop();
+    }
     (this.floor > this.requests[0]) ? this.floorDown(): this.floorUp();
-    if (this.requests.length === 0)
-      stop();
   }
 
   _passengersEnter() {
     for (let i = 0; i < this.waitingList.length; i++) {
       if (this.waitingList[i].originFloor === this.floor) {
         this.passengers.push(this.waitingList[i]);
+        this.requests.push(this.waitingList[i].destinationFloor);
         console.log(`${this.passengers[this.passengers.length-1].name} has enter the elevator`);
       }
     }
-    console.log(this.waitingList[0]);
+    // console.log(this.waitingList[0]);
     for (let i = 0; i < this.waitingList.length; i++) {
-      console.log("Wait Lis=" + this.waitingList[i].originFloor + "    floor" + this.floor);
+      // console.log("Wait Lis=" + this.waitingList[i].originFloor + "    floor" + this.floor);
       if (this.waitingList[i].originFloor === this.floor) {
-        console.log("borrando");
+        // console.log("borrando");
         this.waitingList.splice(i, 1);
-        // if (i != 0)
           i--;
       }
     }
-    // this.passengers.push(person);
-    // let index = this.waitingList.indexOf(person);
-    // if (index > -1)
-    //   this.waitingList.splice(index, 1);
-    // this.requests.push(person.destinationFloor);
-    // console.log(`${person.name} has enter the elevator`);
   }
   _passengersLeave() {
     for (let i = 0; i < this.passengers.length; i++) {
@@ -59,7 +55,8 @@ class Elevator {
       }
     }
     for (let i = 0; i < this.requests.length; i++) {
-      if (this.requests[i].destinationFloor === this.floor) {
+      // console.log(`Request i = ${this.requests[i]}  | Floor= ${this.floor}`);
+      if (this.requests[i] === this.floor) {
         this.requests.splice(i, 1);
         i--;
       }
@@ -77,7 +74,7 @@ class Elevator {
       console.log("The elevator is in the first floor");
   }
   call(person) {
-    this.requests.push(person.destinationFloor);
+    this.requests.push(person.originFloor);
     this.waitingList.push(person);
   }
   log() {
