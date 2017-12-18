@@ -16,16 +16,25 @@ class Elevator {
     clearInterval(moveElevator);
   }
   update() {
+    _passengersLeave();
     this.log();
 
   }
-  _passengersEnter(person) {
-    this.passengers.push(person);
-    let index = this.waitingList.indexOf(person);
-    if (index > -1)
-      this.waitingList.splice(index, 1);
-    this.requests.push(person.destinationFloor);
-    console.log(`${person.name} has enter the elevator`);
+
+  _passengersEnter() {
+    for (let i = 0; i < this.waitingList.length; i++) {
+      if (this.waitingList[i].originFloor === this.floor){
+        this.passengers[i].push(this.waitingList[i]);
+        this.waitingList[i].slice(this.waitingList.length - 1, 1);
+        console.log(`${this.passengers[i].name} has enter the elevator`);
+      }
+    }
+    // this.passengers.push(person);
+    // let index = this.waitingList.indexOf(person);
+    // if (index > -1)
+    //   this.waitingList.splice(index, 1);
+    // this.requests.push(person.destinationFloor);
+    // console.log(`${person.name} has enter the elevator`);
   }
   _passengersLeave() {
     for (let i = 0; i < this.passengers.length; i++) {
